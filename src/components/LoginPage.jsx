@@ -2,8 +2,8 @@ import { useRef } from 'React';
 import { LockClosedIcon } from '@heroicons/react/24/solid';
 
 export default function LoginPage() {
-	const emailRef = useRef();
-	const passwordRef = useRef();
+	const emailRef = useRef(null);
+	const passwordRef = useRef(null);
 
 	const submitHandler = (event) => {
 		event.preventDefault();
