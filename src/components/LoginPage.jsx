@@ -1,4 +1,4 @@
-import { useRef } from 'React';
+import { useRef } from 'react';
 import { LockClosedIcon } from '@heroicons/react/24/solid';
 
 export default function LoginPage() {
