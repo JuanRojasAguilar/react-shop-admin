@@ -6,7 +6,9 @@
             "@styles/*": ["styles/*"],
             "@common/*": ["common/*"],
             "@layout/*": ["layout/*"],
-            "@components/*": ["components/*"]
+            "@components/*": ["components/*"],
+            "@hooks/*": ["hooks/*"],
+            "@services/*": ["services/*"],
         }
     }
 }
