@@ -1,15 +1,32 @@
-import { useState } from 'react';
-import { Fragment } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import { PlusIcon } from '@heroicons/react/20/solid';
 import Modal from '@common/Modal';
 import FormProduct from '@components/FormProduct';
+import axios from 'axios';
+import endPoints from '@services/api';
+import useAlert from '@hooks/useAlert';
+import Alert from '@common/Alert';
 
-export default function products() {
-    const [open, setOpen] = useState(false);
-	const [products, useProducts] = useState([]);
+export default function Products() {
+	const [open, setOpen] = useState(false);
+	const [products, setProducts] = useState([]);
+	const { alert, setAlert, toggleAlert } = useAlert();
+
+	useEffect(() => {
+		async function getProducts() {
+			const response = await axios.get(endPoints.products.allproducts);
+			setProducts(response.data);
+		}
+		try {
+			getProducts();
+		} catch (error) {
+			console.log(error);
+		}
+	}, [alert]);
 
 	return (
 		<>
+			<Alert alert={alert} handleClose={toggleAlert} />
 			<div className="lg:flex lg:items-center lg:justify-between">
 				<div className="min-w-0 flex-1">
 					<h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">List of products</h2>
@@ -19,7 +36,7 @@ export default function products() {
 						<button
 							type="button"
 							className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                            onClick={() => setOpen(true)}
+							onClick={() => setOpen(true)}
 						>
 							<PlusIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
 							Add Product
@@ -93,7 +110,7 @@ export default function products() {
 				</div>
 			</div>
 			<Modal open={open} setOpen={setOpen}>
-				<FormProduct />
+				<FormProduct setOpen={setOpen} setAlert={setAlert} />
 			</Modal>
 		</>
 	);
