@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import addProduct from '@services/api/products';
+import { addProduct } from '@services/api/products';
 
 export default function FormProduct({ setOpen, setAlert }) {
 	const formRef = useRef(null);
@@ -18,8 +18,8 @@ export default function FormProduct({ setOpen, setAlert }) {
 			.then(() => {
 				setAlert({
 					active: true,
-					message: 'Product added succesfully',
-					type: 'succes',
+					message: 'Product added successfully',
+					type: 'success',
 					autoClose: false,
 				});
 				setOpen(false);

@@ -1,11 +1,12 @@
-import { Fragment, useState, useEffect } from 'react';
-import { PlusIcon } from '@heroicons/react/20/solid';
+import { useState, useEffect } from 'react';
+import { PlusIcon, XCircleIcon } from '@heroicons/react/20/solid';
 import Modal from '@common/Modal';
 import FormProduct from '@components/FormProduct';
 import axios from 'axios';
 import endPoints from '@services/api';
 import useAlert from '@hooks/useAlert';
 import Alert from '@common/Alert';
+import { deleteProduct } from '@services/api/products';
 
 export default function Products() {
 	const [open, setOpen] = useState(false);
@@ -24,18 +25,29 @@ export default function Products() {
 		}
 	}, [alert]);
 
+	const handleDelete = (id) => {
+		deleteProduct(id).then(() => {
+			setAlert({
+				active: true,
+				message: 'Delete product successfully',
+				type: 'error',
+				autoClose: true,
+			});
+		});
+	};
+
 	return (
 		<>
 			<Alert alert={alert} handleClose={toggleAlert} />
-			<div className="lg:flex lg:items-center lg:justify-between">
-				<div className="min-w-0 flex-1">
-					<h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">List of products</h2>
+			<div className="lg:flex lg:items-center lg:justify-between mb-8">
+				<div className="flex-1 min-w-0">
+					<h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">List of Products</h2>
 				</div>
 				<div className="mt-5 flex lg:mt-0 lg:ml-4">
 					<span className="sm:ml-3">
 						<button
 							type="button"
-							className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+							className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 							onClick={() => setOpen(true)}
 						>
 							<PlusIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
@@ -44,6 +56,7 @@ export default function Products() {
 					</span>
 				</div>
 			</div>
+
 			<div className="flex flex-col">
 				<div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 					<div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -80,7 +93,7 @@ export default function Products() {
 														<img className="h-10 w-10 rounded-full" src={product.images[0]} alt="" />
 													</div>
 													<div className="ml-4">
-														<div className="text-sm font-medium text-gray-900">{product.name}</div>
+														<div className="text-sm font-medium text-gray-900">{product.title}</div>
 													</div>
 												</div>
 											</td>
@@ -97,9 +110,7 @@ export default function Products() {
 												</a>
 											</td>
 											<td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-												<a href="/edit" className="text-indigo-600 hover:text-indigo-900">
-													Delete
-												</a>
+												<XCircleIcon className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer" aria-hidden="true" onClick={() => handleDelete(product.id)} />
 											</td>
 										</tr>
 									))}
