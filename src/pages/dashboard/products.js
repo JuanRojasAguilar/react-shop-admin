@@ -14,7 +14,7 @@ export default function Products() {
 
 	useEffect(() => {
 		async function getProducts() {
-			const response = await axios.get(endPoints.products.allproducts);
+			const response = await axios.get(endPoints.products.allProducts);
 			setProducts(response.data);
 		}
 		try {
