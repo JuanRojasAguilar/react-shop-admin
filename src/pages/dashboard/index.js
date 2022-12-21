@@ -5,7 +5,7 @@ import Chart from '@common/Chart';
 const PRODUCT_LIMIT = 60;
 const PRODUCT_OFFSET = 60;
 
-export default function Dashboard() {
+const Dashboard = () => {
 	const products = useFetch(endPoints.products.getProducts(PRODUCT_LIMIT, PRODUCT_OFFSET));
 
 	const categoryNames = products?.map((product) => product.category);
@@ -95,3 +95,5 @@ export default function Dashboard() {
 		</>
 	);
 }
+
+export default Dashboard;
