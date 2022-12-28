@@ -1,9 +1,10 @@
 import { useRef } from 'react';
+import { useRouter } from 'next/router';
 import { addProduct, updateProduct } from '@services/api/products';
 
 export default function FormProduct({ setOpen, setAlert, product }) {
 	const formRef = useRef(null);
-	console.log(product);
+	const router = useRouter();
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
@@ -17,8 +18,8 @@ export default function FormProduct({ setOpen, setAlert, product }) {
 		};
 
 		if (product) {
-			updateProduct(product.id, data).then((response) => {
-				console.log(response);
+			updateProduct(product.id, data).then(() => {
+				router.push('/dashboard/products/');
 			});
 		} else {
 			addProduct(data)
